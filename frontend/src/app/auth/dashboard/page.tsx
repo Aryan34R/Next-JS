@@ -15,16 +15,7 @@ interface DecodedToken {
 export default function page() {
   const [user, setUser] = useState<DecodedToken | null>(null);
   const router = useRouter();
-/////
-// oruting using local storage
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     router.push("/login");
-  //   }
-  // }, []);
-
+    
   useEffect(() => {
     const loadUserFromToken = () => {
       const token = localStorage.getItem("token");
@@ -55,10 +46,8 @@ export default function page() {
   const isUser = user.role === 3;
 
   return (
-    // <div className="min-h-screen bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500">
       <div className="container mx-auto p-6 min-h-screen min-w-screen bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500">
       <div className="flex justify-between items-center mb-6 bg-white shadow-md p-4 rounded-lg">
-      {/* <nav className="bg-white p-4 shadow-md flex justify-between items-center rounded-b-lg"> */}
         <h1 className="text-3xl font-semibold text-gray-800">Dashboard</h1>
         <div className="flex space-x-4">
           {isSuperAdmin && (
@@ -128,8 +117,7 @@ export default function page() {
             Logout
           </button>
         </div>
-      {/* </nav> */}
-      </div>
+           </div>
 
       <div className="flex flex-col items-center justify-center min-h-screen pt-10">
         <div className="bg-white shadow-xl rounded-lg p-10 w-full max-w-lg text-center">
