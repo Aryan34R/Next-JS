@@ -353,20 +353,20 @@ const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
             </tbody>
           </table>
           <div className="flex justify-center mt-6">
-  {Array.from({ length: totalPages }, (_, i) => (
-    <button
-      key={i + 1}
-      onClick={() => paginate(i + 1)}
-      className={`mx-1 px-4 py-2 rounded ${
-        currentPage === i + 1
-          ? "bg-blue-600 text-white"
-          : "bg-gray-200 text-gray-800"
-      } hover:bg-blue-500 transition-all duration-300`}
-    >
-      {i + 1}
-    </button>
-  ))}
-</div>
+          {Array.from({ length: totalPages }, (_, i) => (
+          <button
+           key={i + 1}
+            onClick={() => paginate(i + 1)}
+             className={`mx-1 px-4 py-2 rounded ${
+               currentPage === i + 1
+               ? "bg-blue-600 text-white"
+             : "bg-gray-200 text-gray-800"
+            } hover:bg-blue-500 transition-all duration-300`}
+                 >
+              {i + 1}
+                </button>
+     ))}
+      </div>
 
           
         </div>

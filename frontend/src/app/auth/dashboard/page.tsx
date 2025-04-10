@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import { io } from "socket.io-client";
+
 
 interface DecodedToken {
   userId: string;
@@ -29,6 +31,21 @@ export default function page() {
       try {
         const decoded: DecodedToken = jwtDecode<DecodedToken>(token);
         setUser(decoded);
+
+         // ✅ Emit active status on login
+      const socket = io("http://localhost:5000");
+      socket.emit("userStatus", { userId: decoded.userId, status: "active" });
+
+      // 🛑 Cleanup on logout/unload
+      window.addEventListener("beforeunload", () => {
+        socket.emit("userStatus", { userId: decoded.userId, status: "inactive" });
+      });
+
+      return () => {
+        socket.emit("userStatus", { userId: decoded.userId, status: "inactive" });
+        socket.disconnect();
+      };
+
       } catch (error) {
         toast.error("Invalid token. Please log in again.");
         localStorage.removeItem("token");
@@ -107,6 +124,13 @@ export default function page() {
           )}
           <button
             onClick={() => {
+              const token = localStorage.getItem("token");
+                if (token) {
+                  const decoded = jwtDecode<DecodedToken>(token);
+                  const socket = io("http://localhost:5000");
+                  socket.emit("userStatus", { userId: decoded.userId, status: "inactive" });
+                  socket.disconnect();
+                }
               localStorage.removeItem("token");
               document.cookie = "token=";
 
@@ -131,3 +155,4 @@ export default function page() {
     </div>
   );
 }
+
